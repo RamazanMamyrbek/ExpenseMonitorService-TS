@@ -27,4 +27,5 @@ public class LimitResponseDto {
 
     BigDecimal limitSumUsd;
 
+    Long accountFrom;
 }

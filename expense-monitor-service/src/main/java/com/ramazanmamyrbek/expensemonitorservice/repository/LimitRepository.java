@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface LimitRepository extends JpaRepository<Limit, Long> {
 
-    @Query("SELECT l FROM Limit l WHERE l.expenseCategory = :expenseCategory ORDER BY l.limitDatetime DESC LIMIT 1")
-    Optional<Limit> findLatestLimitByExpenseCategory(String expenseCategory);
+    @Query("SELECT l FROM Limit l WHERE l.expenseCategory = :expenseCategory AND l.accountFrom = :accountFrom ORDER BY l.limitDatetime DESC LIMIT 1")
+    Optional<Limit> findLatestLimitByExpenseCategoryAndAccountFrom(String expenseCategory, Long accountFrom);
+
+    List<Limit> findAllByAccountFrom(Long accountFrom);
 }

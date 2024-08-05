@@ -13,6 +13,7 @@ create table limits (
                         limit_datetime timestamp(6) with time zone not null,
                         limit_sum numeric(38,2),
                         limit_sum_usd numeric(38,2) not null,
+                        account_from bigint not null ,
                         primary key (id)
 );
 

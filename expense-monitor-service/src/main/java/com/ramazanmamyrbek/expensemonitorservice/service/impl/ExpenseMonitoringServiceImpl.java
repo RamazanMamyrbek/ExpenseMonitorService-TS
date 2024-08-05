@@ -47,18 +47,19 @@ public class ExpenseMonitoringServiceImpl implements ExpenseMonitoringService {
     }
 
     private boolean isLimitExceeded(Transaction transaction) {
-        if(limitService.getLatestLimitByExpenseCategory(transaction.getExpenseCategory()).isEmpty()) {
+        if(limitService.getLatestLimitByExpenseCategoryAndAccount(transaction.getExpenseCategory(), transaction.getAccountFrom()).isEmpty()) {
             Limit limit = new Limit();
             limit.setLimitSumUsd(new BigDecimal(1000));
             limit.setLimitCurrencyShortname("USD");
             limit.setLimitSum(new BigDecimal(1000));
+            limit.setAccountFrom(transaction.getAccountFrom());
             limit.setExpenseCategory(transaction.getExpenseCategory());
             transaction.setLimit(limit);
             transaction.setRemainingLimitUsd(limit.getLimitSumUsd().subtract(transaction.getSumUsd()));
             limitService.save(limit);
         } else{
-            Limit limit = limitService.getLatestLimitByExpenseCategory(transaction.getExpenseCategory()).get();
-            Transaction latestTransaction = transactionService.getLatestTransactionByExpenseCategory(transaction.getExpenseCategory());
+            Limit limit = limitService.getLatestLimitByExpenseCategoryAndAccount(transaction.getExpenseCategory(), transaction.getAccountFrom()).get();
+            Transaction latestTransaction = transactionService.getLatestTransactionByExpenseCategoryAndAccount(transaction.getExpenseCategory(), transaction.getAccountFrom());
             transaction.setLimit(limit);
             if(latestTransaction == null) {
                 transaction.setRemainingLimitUsd(limit.getLimitSumUsd().subtract(transaction.getSumUsd()));
@@ -77,13 +78,13 @@ public class ExpenseMonitoringServiceImpl implements ExpenseMonitoringService {
     }
 
     @Override
-    public List<TransactionResponseDto> getExceededTransactions() {
-        return transactionService.getExceededTransactions();
+    public List<TransactionResponseDto> getExceededTransactions(Long accountId) {
+        return transactionService.getExceededTransactions(accountId);
     }
 
     @Override
-    public List<LimitResponseDto> getAllLimits() {
-        return limitService.getAllLimits();
+    public List<LimitResponseDto> getAllLimitsByAccount(Long accountFrom) {
+        return limitService.getAllLimitsByAccount(accountFrom);
     }
 
     @Override

@@ -10,17 +10,6 @@ services:
       POSTGRES_DB: expense-monitor-service
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-
-  postgres_test_db:
-    image: postgres
-    container_name: postgres_test_db
-    ports:
-      - "9993:5432"
-    environment:
-      POSTGRES_DB: expense-monitor-service-test
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-
   expense-monitor:
     build:
       context: .

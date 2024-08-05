@@ -103,9 +103,11 @@ public class ExpenseMonitoringServiceTest {
         limitCreateRequestDto.setLimitCurrencyShortname("USD");
         limitCreateRequestDto.setLimitSum(new BigDecimal(2000.00));
         limitCreateRequestDto.setExpenseCategory("product");
+        limitCreateRequestDto.setAccountFrom(1L);
 
         LimitResponseDto limitResponseDtoExpected = new LimitResponseDto();
         limitResponseDtoExpected.setId(1L);
+        limitResponseDtoExpected.setAccountFrom(1L);
         limitResponseDtoExpected.setLimitSum(new BigDecimal(2000.00));
         limitResponseDtoExpected.setLimitDatetime(ZonedDateTime.now());
         limitResponseDtoExpected.setLimitSumUsd(new BigDecimal(2000.00));
@@ -117,12 +119,14 @@ public class ExpenseMonitoringServiceTest {
         assertEquals(limitResponseDtoExpected.getLimitCurrencyShortname(), limitResponseDtoActual.getLimitCurrencyShortname());
         assertEquals(limitResponseDtoExpected.getLimitSumUsd(), limitResponseDtoActual.getLimitSumUsd());
         assertEquals(limitResponseDtoExpected.getExpenseCategory(), limitResponseDtoActual.getExpenseCategory());
+        assertEquals(limitResponseDtoExpected.getAccountFrom(), limitResponseDtoActual.getAccountFrom());
     }
 
     @Test
     void testCreateLimitWithInvalidExpenseCategory() {
         LimitCreateRequestDto limitCreateRequestDto = new LimitCreateRequestDto();
         limitCreateRequestDto.setLimitCurrencyShortname("USD");
+        limitCreateRequestDto.setAccountFrom(1L);
         limitCreateRequestDto.setLimitSum(new BigDecimal(2000.00));
         limitCreateRequestDto.setExpenseCategory("Invalid category");
 

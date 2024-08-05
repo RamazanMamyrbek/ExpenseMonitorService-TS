@@ -11,6 +11,7 @@ import com.ramazanmamyrbek.expensemonitorservice.service.LimitService;
 import com.ramazanmamyrbek.expensemonitorservice.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -34,26 +35,26 @@ public class ExpenseMonitorController {
 
     @PostMapping(value = "/transactions", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(summary = "Accept a transaction")
-    public ResponseEntity<TransactionResponseDto> acceptTransaction(@RequestBody TransactionAcceptRequestDto transactionAcceptRequestDto) {
+    public ResponseEntity<TransactionResponseDto> acceptTransaction(@RequestBody @Valid TransactionAcceptRequestDto transactionAcceptRequestDto) {
         TransactionResponseDto transactionResponseDto = expenseMonitoringService.acceptTransaction(transactionAcceptRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(transactionResponseDto);
     }
 
     @GetMapping("/transactions/exceeded-limit")
     @Operation(summary = "Get transactions with exceeded limit")
-    public ResponseEntity<List<TransactionResponseDto>> exceededTransactions() {
-        return ResponseEntity.ok().body(expenseMonitoringService.getExceededTransactions());
+    public ResponseEntity<List<TransactionResponseDto>> exceededTransactionsByAccount(@RequestParam Long accountId) {
+        return ResponseEntity.ok().body(expenseMonitoringService.getExceededTransactions(accountId));
     }
 
     @GetMapping("/limits")
     @Operation(summary = "Get all limits")
-    public ResponseEntity<List<LimitResponseDto>> getAllLimits() {
-        return ResponseEntity.ok().body(expenseMonitoringService.getAllLimits());
+    public ResponseEntity<List<LimitResponseDto>> getAllLimitsByAccount(@RequestParam Long accountId) {
+        return ResponseEntity.ok().body(expenseMonitoringService.getAllLimitsByAccount(accountId));
     }
 
     @PostMapping("/limits")
     @Operation(summary = "Create a limit")
-    public ResponseEntity<LimitResponseDto> createLimit(@RequestBody LimitCreateRequestDto limitCreateRequestDto) {
+    public ResponseEntity<LimitResponseDto> createLimit(@RequestBody @Valid LimitCreateRequestDto limitCreateRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(expenseMonitoringService.createLimit(limitCreateRequestDto));
     }
 

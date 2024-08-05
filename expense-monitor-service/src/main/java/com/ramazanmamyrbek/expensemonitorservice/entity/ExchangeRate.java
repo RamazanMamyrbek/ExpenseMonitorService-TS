@@ -24,4 +24,5 @@ public class ExchangeRate {
 
     @Column(name = "date", nullable = false)
     private LocalDate date = LocalDate.now();
+
 }

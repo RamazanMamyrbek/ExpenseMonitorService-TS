@@ -9,9 +9,11 @@ import java.util.List;
 public interface TransactionService {
     TransactionResponseDto save(Transaction transaction);
 
-    List<TransactionResponseDto> getExceededTransactions();
+    List<TransactionResponseDto> getExceededTransactions(Long accountId);
 
     List<Transaction> getAllServicesByDateTimeAfter(ZonedDateTime limitDatetime);
 
-    Transaction getLatestTransactionByExpenseCategory(String expenseCategory);
+
+
+    Transaction getLatestTransactionByExpenseCategoryAndAccount(String expenseCategory, Long accountFrom);
 }

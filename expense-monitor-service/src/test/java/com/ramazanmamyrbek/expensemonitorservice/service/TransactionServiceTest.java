@@ -85,7 +85,7 @@ public class TransactionServiceTest {
     @Test
     void testExceededTransactions() {
         Transaction transaction = new Transaction();
-        transaction.setAccountFrom(1234567890L);
+        transaction.setAccountFrom(1L);
         transaction.setAccountTo(9876543210L);
         transaction.setCurrencyShortname("USD");
         transaction.setSum(new BigDecimal("200.00"));
@@ -96,7 +96,7 @@ public class TransactionServiceTest {
         transaction.setRemainingLimitUsd(new BigDecimal("1000.00"));
         transactionRepository.save(transaction);
         List<TransactionResponseDto> expectedList = List.of(transactionService.save(transaction));
-        List<TransactionResponseDto> actualList = transactionService.getExceededTransactions();
+        List<TransactionResponseDto> actualList = transactionService.getExceededTransactions(1L);
 
         for(int i = 0; i < expectedList.size(); i++) {
             TransactionResponseDto expected = expectedList.get(i);
@@ -143,7 +143,7 @@ public class TransactionServiceTest {
     @Test
     void getLatestTransactionByExpenseCategory() {
         Transaction transaction = new Transaction();
-        transaction.setAccountFrom(1234567890L);
+        transaction.setAccountFrom(1L);
         transaction.setAccountTo(9876543210L);
         transaction.setCurrencyShortname("USD");
         transaction.setSum(new BigDecimal("200.00"));
@@ -157,7 +157,7 @@ public class TransactionServiceTest {
         String expenseCategory = "product";
 
         Transaction expected = transaction;
-        Transaction actual = transactionService.getLatestTransactionByExpenseCategory(expenseCategory);
+        Transaction actual = transactionService.getLatestTransactionByExpenseCategoryAndAccount(expenseCategory, 1L);
         assertEquals(expected.getAccountFrom(), actual.getAccountFrom());
         assertEquals(expected.getAccountTo(), actual.getAccountTo());
         assertEquals(expected.getSum(), actual.getSum());

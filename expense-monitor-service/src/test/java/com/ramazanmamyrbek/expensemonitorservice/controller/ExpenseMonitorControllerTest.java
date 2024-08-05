@@ -1,6 +1,5 @@
 package com.ramazanmamyrbek.expensemonitorservice.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ramazanmamyrbek.expensemonitorservice.dto.request.LimitCreateRequestDto;
 import com.ramazanmamyrbek.expensemonitorservice.dto.request.TransactionAcceptRequestDto;
@@ -75,20 +74,22 @@ public class ExpenseMonitorControllerTest {
 
     @Test
     void testExceededTransactions() throws Exception {
-        when(expenseMonitoringService.getExceededTransactions())
+        when(expenseMonitoringService.getExceededTransactions(1L))
                 .thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/api/transactions/exceeded-limit"))
+        mockMvc.perform(get("/api/transactions/exceeded-limit")
+                        .param("accountId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.emptyList())));
     }
 
     @Test
     void testGetAllLimits() throws Exception {
-        when(expenseMonitoringService.getAllLimits())
+        when(expenseMonitoringService.getAllLimitsByAccount(1L))
                 .thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/api/limits"))
+        mockMvc.perform(get("/api/limits")
+                        .param("accountId", "1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(Collections.emptyList())));
     }

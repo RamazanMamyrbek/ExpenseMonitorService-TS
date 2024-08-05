@@ -8,11 +8,12 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LimitService {
-    List<LimitResponseDto> getAllLimits();
 
     LimitResponseDto createLimit(LimitCreateRequestDto limitCreateRequestDto);
 
-    Optional<Limit> getLatestLimitByExpenseCategory(String expenseCategory);
+    Optional<Limit> getLatestLimitByExpenseCategoryAndAccount(String expenseCategory, Long accountFrom);
 
     void save(Limit limit);
+
+    List<LimitResponseDto> getAllLimitsByAccount(Long accountFrom);
 }

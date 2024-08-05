@@ -2,7 +2,6 @@ package com.ramazanmamyrbek.expensemonitorservice.service.impl;
 
 import com.ramazanmamyrbek.expensemonitorservice.dto.response.TransactionResponseDto;
 import com.ramazanmamyrbek.expensemonitorservice.entity.Transaction;
-import com.ramazanmamyrbek.expensemonitorservice.exception.BadRequestException;
 import com.ramazanmamyrbek.expensemonitorservice.repository.TransactionRepository;
 import com.ramazanmamyrbek.expensemonitorservice.service.TransactionService;
 import lombok.AccessLevel;
@@ -31,8 +30,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionResponseDto> getExceededTransactions() {
-        return transactionRepository.findAllByLimitExceeded(true).stream()
+    public List<TransactionResponseDto> getExceededTransactions(Long accountId) {
+        return transactionRepository.findAllByLimitExceededAndAccountFrom(true, accountId).stream()
                 .map(transaction -> modelMapper.map(transaction, TransactionResponseDto.class)).toList();
     }
 
@@ -42,8 +41,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Transaction getLatestTransactionByExpenseCategory(String expenseCategory) {
-        return transactionRepository.findLatestTransactionByExpenseCategory(expenseCategory)
+    public Transaction getLatestTransactionByExpenseCategoryAndAccount(String expenseCategory, Long accountFrom) {
+        return transactionRepository.findLatestTransactionByExpenseCategoryAndAccount(expenseCategory, accountFrom)
                 .orElse(null);
     }
 }

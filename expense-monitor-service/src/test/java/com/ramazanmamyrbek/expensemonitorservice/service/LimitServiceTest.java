@@ -64,6 +64,7 @@ public class LimitServiceTest {
         limit1.setExpenseCategory("service");
         limit1.setLimitSumUsd(new BigDecimal("1000.00"));
         limit1.setLimitDatetime(ZonedDateTime.parse("2024-08-01T04:00:00Z")); // UTC
+        limit1.setAccountFrom(1L);
         limitRepository.save(limit1);
 
         List<LimitResponseDto> limitResponseDtoList = new ArrayList<>();
@@ -73,10 +74,11 @@ public class LimitServiceTest {
         limitResponseDto1.setLimitCurrencyShortname("USD");
         limitResponseDto1.setLimitSumUsd(new BigDecimal("1000.00"));
         limitResponseDto1.setExpenseCategory("service");
+        limitResponseDto1.setAccountFrom(1L);
         limitResponseDto1.setLimitDatetime(ZonedDateTime.parse("2024-08-01T04:00:00Z")); // UTC
         limitResponseDtoList.add(limitResponseDto1);
 
-        List<LimitResponseDto> limitResponseDtoListActual = limitService.getAllLimits();
+        List<LimitResponseDto> limitResponseDtoListActual = limitService.getAllLimitsByAccount(1L);
 
         for(int i = 0; i < limitResponseDtoListActual.size(); i++) {
             LimitResponseDto expected = limitResponseDtoList.get(i);
@@ -84,6 +86,7 @@ public class LimitServiceTest {
             assertEquals(expected.getLimitSum(), actual.getLimitSum());
             assertEquals(expected.getLimitCurrencyShortname(), actual.getLimitCurrencyShortname());
             assertEquals(expected.getExpenseCategory(), actual.getExpenseCategory());
+            assertEquals(expected.getAccountFrom(), actual.getAccountFrom());
         }
     }
 
@@ -93,6 +96,7 @@ public class LimitServiceTest {
         limitCreateRequestDto.setLimitCurrencyShortname("USD");
         limitCreateRequestDto.setLimitSum(new BigDecimal(2000.00));
         limitCreateRequestDto.setExpenseCategory("product");
+        limitCreateRequestDto.setAccountFrom(1L);
 
         LimitResponseDto limitResponseDtoExpected = new LimitResponseDto();
         limitResponseDtoExpected.setId(1L);

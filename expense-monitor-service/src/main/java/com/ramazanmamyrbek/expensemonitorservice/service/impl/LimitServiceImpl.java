@@ -27,8 +27,8 @@ public class LimitServiceImpl implements LimitService {
     final ExchangeRateService exchangeRateService;
 
     @Override
-    public List<LimitResponseDto> getAllLimits() {
-        return limitRepository.findAll().stream()
+    public List<LimitResponseDto> getAllLimitsByAccount(Long accountFrom) {
+        return limitRepository.findAllByAccountFrom(accountFrom).stream()
                 .map(limit -> modelMapper.map(limit, LimitResponseDto.class))
                 .toList();
     }
@@ -43,8 +43,8 @@ public class LimitServiceImpl implements LimitService {
     }
 
     @Override
-    public Optional<Limit> getLatestLimitByExpenseCategory(String expenseCategory) {
-        return limitRepository.findLatestLimitByExpenseCategory(expenseCategory);
+    public Optional<Limit> getLatestLimitByExpenseCategoryAndAccount(String expenseCategory, Long accountFrom) {
+        return limitRepository.findLatestLimitByExpenseCategoryAndAccountFrom(expenseCategory, accountFrom);
     }
 
     @Override

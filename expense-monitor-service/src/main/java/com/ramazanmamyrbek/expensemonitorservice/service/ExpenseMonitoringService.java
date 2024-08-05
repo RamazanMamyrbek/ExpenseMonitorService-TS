@@ -11,11 +11,12 @@ import java.util.List;
 public interface ExpenseMonitoringService {
     TransactionResponseDto acceptTransaction(TransactionAcceptRequestDto transactionAcceptRequestDto);
 
-    List<TransactionResponseDto> getExceededTransactions();
+    List<TransactionResponseDto> getExceededTransactions(Long accountId);
 
-    List<LimitResponseDto> getAllLimits();
 
     LimitResponseDto createLimit(LimitCreateRequestDto limitCreateRequestDto);
 
     ExchangeRatesResponseDto updateExchangeRates() throws InterruptedException;
+
+    List<LimitResponseDto> getAllLimitsByAccount(Long accountFrom);
 }

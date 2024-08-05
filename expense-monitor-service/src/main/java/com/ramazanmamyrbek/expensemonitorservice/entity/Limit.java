@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "limits")
@@ -29,4 +30,11 @@ public class Limit {
 
     @Column(name = "limit_sum_usd", nullable = false)
     private BigDecimal limitSumUsd;
+
+    @Column(name = "account_from", nullable = false)
+    private Long accountFrom;
+
+    @OneToMany(mappedBy = "limit")
+    List<Transaction> transactions;
+
 }

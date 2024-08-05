@@ -1,6 +1,7 @@
 package com.ramazanmamyrbek.expensemonitorservice.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ public class TransactionAcceptRequestDto {
     private String currencyShortname;
 
     @Schema(example = "200")
+    @Min(value = 0)
     private BigDecimal sum;
 
     @Schema(example = "product")

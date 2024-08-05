@@ -11,10 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findAllByLimitExceeded(boolean limitExceeded);
+    List<Transaction> findAllByLimitExceededAndAccountFrom(boolean limitExceeded, Long accountId);
 
     List<Transaction> findAllByDatetimeAfter(ZonedDateTime dateTime);
 
-    @Query("SELECT t from Transaction t where t.expenseCategory = :expenseCategory ORDER BY t.datetime DESC, t.id DESC LIMIT 1")
-    Optional<Transaction> findLatestTransactionByExpenseCategory(String expenseCategory);
+    @Query("SELECT t from Transaction t where t.expenseCategory = :expenseCategory AND t.accountFrom = :accountFrom ORDER BY t.datetime DESC, t.id DESC LIMIT 1")
+    Optional<Transaction> findLatestTransactionByExpenseCategoryAndAccount(String expenseCategory, Long accountFrom);
+
 }
