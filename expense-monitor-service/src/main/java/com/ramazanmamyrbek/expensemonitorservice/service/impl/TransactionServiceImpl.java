@@ -24,6 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
     final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public TransactionResponseDto save(Transaction transaction) {
         Transaction savedTransaction = transactionRepository.save(transaction);
         return modelMapper.map(savedTransaction, TransactionResponseDto.class);
