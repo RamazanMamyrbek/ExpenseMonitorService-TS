@@ -9,7 +9,8 @@ http://142.93.104.229:9990/swagger-ui/index.html
 
 ## Стек технологий
 
-- Spring Boot
+- JDK 21
+- Spring Boot 3.3.2
 - PostgreSQL
 - Docker
 - Docker Compose
